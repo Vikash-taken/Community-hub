@@ -1,5 +1,4 @@
 # --- Python & Virtual Environments ---
-# Ignores the .venv in your top directory
 .venv/
 venv/
 ENV/
@@ -10,7 +9,6 @@ __pycache__/
 *.so
 .python-version
 
-# --- Django Specifics ---
 # Local database (SQLite)
 *.sqlite3
 *.sqlite3-journal
@@ -18,13 +16,11 @@ __pycache__/
 *.sqlite3-wal
 
 # Static and Media files
-# (Uncomment static/ if you don't want to track gathered assets)
 # static/
 media/
 local_settings.py
 
 # --- Environment Variables & Secrets ---
-# NEVER push your secret keys or API tokens
 .env
 .flaskenv
 
@@ -39,7 +35,6 @@ Icon
 *.icloud
 
 # --- Text Editors & IDEs ---
-# Neovim / Vim
 *.swp
 *.swo
 Session.vim
