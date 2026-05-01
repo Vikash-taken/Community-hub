@@ -1,0 +1,54 @@
+{% extends "network/layout.html" %}
+{% load static %}
+{% block head %}
+<link href="{% static 'network/styles.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  <div class="app-container">
+     <div class="layout-wrapper">
+        <aside class="sidebar-left">
+          <div class="nav-item active">🏠 Home</div>
+          <div class="nav-item">🔥 Popular</div>
+          <div class="sidebar-divider">Communities</div>
+          {% for community in communities %}
+            {% include "network/community.html" %}
+          {% endfor %}
+        </aside>
+
+      <main class="feed">
+        <div class="social-status-bar">
+          <div class="social-item">
+            <div class="avatar-wrapper">
+              <img src="your-pfp.jpg" alt="You" class="avatar">
+              <span class="status-indicator online"></span>
+            </div>
+            <span class="social-name">You</span>
+          </div>
+
+          <div class="social-item">
+            <div class="avatar-wrapper">
+              <div class="avatar-placeholder">V</div>
+                <span class="status-indicator online"></span>
+            </div>
+            <span class="social-name">Vishal</span>
+          </div>
+        </div>
+
+      <div class="post-card">
+        <div class="post-header">Posted by u/username • 2h ago</div>
+        <div class="post-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</div>
+        <div class="post-footer">💬 15 Comments</div>
+      </div>
+      </main>
+
+      <aside class="sidebar-right">
+        <div class="info-right">
+          <h3>About Community</h3>
+          <p>Welcome to Trollit! Chill and have fun.</p>
+          <button class="btn-primary">Create Post</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+{% endblock %}

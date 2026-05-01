@@ -1,0 +1,75 @@
+# --- Python & Virtual Environments ---
+# Ignores the .venv in your top directory
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.python-version
+
+# --- Django Specifics ---
+# Local database (SQLite)
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-shm
+*.sqlite3-wal
+
+# Static and Media files
+# (Uncomment static/ if you don't want to track gathered assets)
+# static/
+media/
+local_settings.py
+
+# --- Environment Variables & Secrets ---
+# NEVER push your secret keys or API tokens
+.env
+.flaskenv
+
+# --- macOS System Files ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+*.icloud
+
+# --- Text Editors & IDEs ---
+# Neovim / Vim
+*.swp
+*.swo
+Session.vim
+.netrwhist
+undo/
+tags
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# --- Logs and Caches ---
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Compiled Files / Dist ---
+bin/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/

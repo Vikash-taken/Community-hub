@@ -1,0 +1,38 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block head %}
+  <link href="{% static 'network/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <div class="container">
+      <div class="login-card">
+        <div class="info-side register-bg login-bg">
+          <h1> Welcome to Trollit </h1>
+          <p> Hello, this website is a simple project of mine... </p>
+        </div>
+
+        <div class="form-side">
+          <form action="{% url 'network:login' %}" method="post">
+              {% csrf_token %}
+              <h3> USER LOGIN </h3>
+              <div class="input-group">
+                  <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+              </div>
+              <div class="input-group">
+                  <input class="form-control" type="password" name="password" placeholder="Password">
+              </div>
+              <button type="submit" class="login-btn">LOGIN</button>
+          </form>
+
+          Don't have an account? <a href="{% url 'network:register' %}">Register here.</a>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,15 @@
+{% extends "network/layout.html" %}
+{% block body %}
+<div>
+    <span><img src="{{ post.user.profile_pic.url }}"></span>
+    <span>{{ post.user.username }}</span>
+    <img src="{{ post.image_post.url }}">
+    <span>{{ post.upvote }}</span>
+    <span>{{ post.downvote }}</span>
+</div>
+<div id="comment_container">
+    {% for comment in comments %}
+    {% include "network/comment_list.html" %}
+    {% endfor %}
+</div>
+{% endblock %}
