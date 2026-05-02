@@ -4,6 +4,7 @@
   --input-bg: #f0efff;
   --radius-md: 12px;
   --border-color: #e2e8f0;
+  --button-bg: linear-gradient(135deg, #37275a 0%, #4a11d4 100%);
 }
 
 * {
@@ -12,6 +13,10 @@
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
   transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.2);
 }
 
 .navbar {
@@ -28,6 +33,27 @@
   overflow: hidden;
 }
 
+.nav-left a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 2em;
+  color: #9b6dff;
+}
+
+.btn-primary {
+  background: var(--button-bg);
+  border: none;
+  padding: 12px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.btn-primary a {
+  color: white;
+  font-weight: boldt;
+  text-decoration: none;
+}
+
 .search-box {
   display: none;
   align-items: center;
@@ -36,13 +62,6 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
   height: 40px;
-}
-
-.search-box input {
-  border: none;
-  outline: none;
-  padding-left: 10px;
-  width: 100%;
 }
 
 .container {
