@@ -12,10 +12,11 @@
   --radius-md: 12px;
   --border-color: #e2e8f0;
   --button-bg: linear-gradient(135deg, #37275a 0%, #4a11d4 100%);
+  --bg-index: linear-gradient(135deg, #fdfaff 0%, #ffffff 50%, #fff7fb 100%);
 }
 
 body {
-  background: var(--primary-gradient);
+  background: var(--bg-index);
   background-attachment: fixed;
   min-height: 100vh;
   margin: 0;
@@ -118,21 +119,37 @@ body {
 }
 
 .nav-item {
-  padding: 12px 15px;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 5px;
-  margin-right: 10px;
-  transition: background 0.3s;
+  position: relative;
+  padding: 12px 24px;
+  color: var(--text-muted);
+  border-radius: 0 20px 20px 0;
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+  background: transparent;
+  margin-right: 15px;
 }
 
-.nav-item:hover,
+.nav-item:hover {
+  background: #f5f3ff;
+  color: var(--accent-purple);
+}
+
 .nav-item.active {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
+  background: #f0ebff;
+  color: #8254ea;
+  font-weight: 600;
 }
 
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: var(--primary-gradient);
+  border-radius: 0 4px 4px 0;
+}
 .info-right {
   margin-left: 20px;
 }
@@ -141,13 +158,13 @@ body {
   display: flex;
   gap: 20px;
   padding: 15px;
-  background: rgba(255, 255, 255, 0.1); /* Glass effect */
+  background: rgba(0, 0, 0, 0.03);
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   overflow-x: auto;
   scrollbar-width: none;
   margin-bottom: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #8254ea;
 }
 
 .social-status-bar::-webkit-scrollbar {
@@ -202,13 +219,13 @@ body {
 }
 
 .status-indicator.online {
-  background: #22c55e; /* Green */
+  background: #22c55e;
   box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
 }
 
 .social-name {
   font-size: 0.75rem;
-  color: white;
+  color: #32173b;
   font-weight: 500;
   max-width: 65px;
   overflow: hidden;
