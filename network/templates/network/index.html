@@ -2,12 +2,13 @@
 {% load static %}
 {% block head %}
 <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+<script src="{% static 'network/index.js' %}"></script>
 {% endblock %}
 
 {% block body %}
   <div class="app-container">
      <div class="layout-wrapper">
-        <aside class="sidebar-left">
+        <aside id="sidebar" class="sidebar-left">
           <div class="nav-item active">🏠 Home</div>
           <div class="nav-item">🔥 Popular</div>
           <div class="sidebar-divider">Communities</div>
@@ -35,11 +36,14 @@
           </div>
         </div>
 
-      <div class="post-card">
-        <div class="post-header">Posted by u/username • 2h ago</div>
-        <div class="post-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</div>
-        <div class="post-footer">💬 15 Comments</div>
-      </div>
+        <div id="post-container">
+          <div class="post-card">
+            <div class="post-header">Posted by u/username • 2h ago</div>
+            <div class="post-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</div>
+            <div class="post-footer">💬 15 Comments</div>
+          </div>
+          {% include "network/post_list.html" %}
+        </div>
       </main>
 
       <aside class="sidebar-right">

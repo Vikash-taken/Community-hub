@@ -40,6 +40,10 @@ button:hover {
   color: #9b6dff;
 }
 
+.nav-toggle {
+  display: none;
+}
+
 .btn-primary {
   background: var(--button-bg);
   border: none;

@@ -46,6 +46,12 @@ body {
   background: var(--primary-gradient);
 }
 
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .nav-left a {
   font-weight: bold;
   text-decoration: none;
@@ -53,6 +59,20 @@ body {
   font-size: 2rem;
   transform: translateY(-3px);
   color: #ffffff;
+}
+
+.nav-toggle {
+  display: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 2em;
+  color: white;
+  border: none;
+  background: #8254ea;
+}
+
+.nav-toggle:hover {
+  transform: translateY(-3px);
 }
 
 .nav-right a {
@@ -132,6 +152,7 @@ body {
 .nav-item:hover {
   background: #f5f3ff;
   color: var(--accent-purple);
+  cursor: pointer;
 }
 
 .nav-item.active {
@@ -233,6 +254,31 @@ body {
   white-space: nowrap;
 }
 
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.post-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
+
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 10px 0px;
+}
+
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media (max-width: 1100px) {
   .layout-wrapper {
     grid-template-columns: 240px 1fr;
@@ -247,8 +293,24 @@ body {
     grid-template-columns: 1fr;
     padding: 10px;
   }
+  .nav-toggle {
+    display: block;
+  }
   .sidebar-left {
-    display: none;
+    position: fixed;
+    width: 240px;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 300ms ease-in-out,
+      visibility 300ms;
+  }
+  .show {
+    opacity: 1;
+    visibility: visible;
   }
   .navbar {
     padding: 0 15px;

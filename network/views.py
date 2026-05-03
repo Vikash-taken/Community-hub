@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.core import paginator
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import IntegrityError
 from django.db.models import (
     Count,
@@ -56,15 +56,20 @@ def index(request):
     # Pagination: which divide many page into small pages(parts)
     paginator = Paginator(posts, 10)
     page_number = request.GET.get("page", 1)
-    page_obj = paginator.get_page(page_number)
 
-    # Listen for api calls
+    try:
+        page_obj = paginator.page(page_number)
+    except (EmptyPage, PageNotAnInteger):
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            # Return empty if JS asks for a non-existent page
+            return JsonResponse({"html": "", "has_next": False})
+        page_obj = paginator.page(1)
+
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
         html = render_to_string(
             "network/post_list.html", {"posts": page_obj}, request=request
         )
         return JsonResponse({"html": html, "has_next": page_obj.has_next()})
-
     # Get all the commmunities
     communities = Community.objects.all()
 

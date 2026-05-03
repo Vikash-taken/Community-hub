@@ -71,13 +71,15 @@ class NetworkTestCase(TestCase):
 
     def test_vote_unique_constraint(self):
         self.assertEqual(Vote.objects.count(), 3)
-
         self.assertEqual(Vote.objects.filter(post=self.p1, user=self.user1).count(), 1)
+
         Vote.objects.create(direction=-1, post=self.p2, user=self.user2)
         self.assertEqual(Vote.objects.count(), 4)
+
         Vote.objects.create(direction=1, comment=self.c1, user=self.user2)
         self.assertEqual(Vote.objects.count(), 3)
         self.assertFalse(Vote.objects.filter(comment=self.c1, user=self.user2).exists())
+
         v4 = Vote.objects.create(direction=-1, post=self.p1, user=self.user2)
         self.assertIsNotNone(v4.pk)
         self.assertEqual(Vote.objects.count(), 4)

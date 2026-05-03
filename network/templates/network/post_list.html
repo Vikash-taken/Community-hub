@@ -1,12 +1,30 @@
-<div calss="info-card">
-  <div>
-    <span><img src="{{ post.user.profile_pic.url }}" /></span>
-    <h4>{{ post.title }}</h4>
-    <p>{{ post.content }}</p>
-    <img src="{{ post.image_post.url }}" />
-    <span>{{ post.upvote }}</span>
-    <span>{{ post.downvote }}</span>
+{% for post in posts %}
+  <div class="post-card">
+    <div class="post-header">
+      <div class="post-left">
+        <div class="avatar-wrapper">
+          {% if post.user.profile_pic %}
+            <img src="{{ post.user.profile_pic.url }}" class="avatar"/>
+          {% else %}
+              {{ post.user.username|slice:":1" }}
+          {% endif %}
+        </div>
+        {{ post.user.username }}
+      </div>
+      <div>
+        {{ post.community }}
+      </div>
+    </div>
+    <div class="post-content">
+      <h4>{{ post.title }}</h4>
+      <p>{{ post.content }}</p>
+      {% if post.image_post %}
+      <img src="{{ post.image_post.url }}" />
+      {% endif %}
+    </div>
+    <div class="post-footer">
+      <span>Upvotes: {{ post.upvote }}</span>
+      <span>Date: {{ post.post_created }}</span>
+    </div>
   </div>
-  <div class="card-date">{{ post.post_created }}</div>
-</div>
-
+{% endfor %}
