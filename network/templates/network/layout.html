@@ -18,8 +18,14 @@
             </div>
             <div class="nav-right">
             {% if user.is_authenticated %}
-            <div class="social-icon">{{ user.profile_pic.url }}</div>
-            <button class="btn-logout">
+            <div class="social-icon">
+              {% if user.profile_pic %}
+              <img class="avatar" src="{{ user.profile_pic.url }}"/>
+              {% else %}
+              <span class="avatar">{{ user.username | slice:":1" | upper }}</span>
+              {% endif %}
+            </div>
+            <button class="btn-primary">
               <a href="{% url 'network:logout' %}">Logout</a>
             </button>
             {% else %}

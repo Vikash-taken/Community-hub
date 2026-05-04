@@ -75,6 +75,12 @@ body {
   transform: translateY(-3px);
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .nav-right a {
   font-weight: bold;
   text-decoration: none;
@@ -205,6 +211,21 @@ body {
   transform: scale(1.05);
 }
 
+.social-icon {
+  width: 60px;
+  aspect-ratio: 1/1;
+  border: 1px solid var(--accent-purple);
+  border-radius: 50%;
+}
+
+.social-icon .avatar {
+  border: none;
+  height: 100%;
+  width: 100%;
+  background: none;
+  object-fit: cover;
+}
+
 .avatar-wrapper {
   position: relative;
   width: 60px;
@@ -277,6 +298,15 @@ body {
 .post-footer {
   display: flex;
   justify-content: space-between;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+}
+
+.footer-left span {
+  padding-right: 10px;
 }
 
 @media (max-width: 1100px) {

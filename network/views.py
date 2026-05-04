@@ -20,40 +20,41 @@ from .models import Comment, Community, Post, User, Vote
 
 
 def index(request):
-    # Calculate hotness of the post
-    # For upvote and downvote of Post
+    # calculate the upvote an downvote of post
     posts = Post.objects.annotate(
         upvote_count=Count("votes", filter=Q(votes__direction=1)),
-        downvote_count=Count("votes"),
-        filter=Q(votes__direction=-1),
+        downvote_count=Count("votes", filter=Q(votes__direction=-1)),
     )
 
-    # For calculating hotness for Post
+    # check if user is requestion certain group
+    group_id = request.GET.get("group_id")
+    if group_id:
+        posts = posts.filter(community_id=group_id)
+
     now = timezone.now()
 
-    Post.objects.annotate(
-        net_vote=F("vote_score"),
-        # Calculation time
-        time_diff=ExpressionWrapper(
-            now - F("post_created"), output_field=DurationField()
-        ),
-    ).annotate(
-        # 2. Convert Duration to seconds (float), then to hours
-        # We Cast the duration to FloatField to perform math
-        escaped_time_hours=Cast(F("time_diff"), FloatField())
-        / 1000000.0
-        / 3600.0
-    ).annotate(
-        # 3. Final Hotness Calculation
-        hotness=ExpressionWrapper(
-            F("vote_score") / (F("escaped_time_hours") + 2.0),
-            output_field=FloatField(),
+    # arranging data according to popularity
+    posts = (
+        posts.annotate(
+            net_vote=F("vote_score"),
+            time_diff=ExpressionWrapper(
+                now - F("post_created"), output_field=DurationField()
+            ),
         )
-    ).order_by(
-        "-hotness", "-post_created"
+        .annotate(
+            escaped_time_hours=Cast(F("time_diff"), FloatField()) / 1000000.0 / 3600.0
+        )
+        .annotate(
+            hotness=ExpressionWrapper(
+                F("vote_score") / (F("escaped_time_hours") + 2.0),
+                output_field=FloatField(),
+            )
+        )
+        .order_by("-hotness", "-post_created")
     )
 
-    # Pagination: which divide many page into small pages(parts)
+    # sending data 10 at a time
+    # paginatior spilts data in different pages each containing 10
     paginator = Paginator(posts, 10)
     page_number = request.GET.get("page", 1)
 
@@ -61,7 +62,6 @@ def index(request):
         page_obj = paginator.page(page_number)
     except (EmptyPage, PageNotAnInteger):
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
-            # Return empty if JS asks for a non-existent page
             return JsonResponse({"html": "", "has_next": False})
         page_obj = paginator.page(1)
 
@@ -70,6 +70,7 @@ def index(request):
             "network/post_list.html", {"posts": page_obj}, request=request
         )
         return JsonResponse({"html": html, "has_next": page_obj.has_next()})
+
     # Get all the commmunities
     communities = Community.objects.all()
 
