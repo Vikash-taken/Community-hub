@@ -75,7 +75,13 @@ def index(request):
     communities = Community.objects.all()
 
     return render(
-        request, "network/index.html", {"posts": page_obj, "communities": communities}
+        request,
+        "network/index.html",
+        {
+            "posts": page_obj,
+            "communities": communities,
+            "has_next": page_obj.has_next(),
+        },
     )
 
 

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   )?.value;
 
   let state = {
-    page: 1,
+    page: 2,
     currentGroupId: null,
     emptyPage: false,
     blockRequest: false,
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (state.emptyPage || state.blockRequest) return;
     state.blockRequest = true;
 
-    let url = `?page=${state.page + 1}`;
+    let url = `?page=${state.page}`;
     if (state.currentGroupId) url += `&group_id=${state.currentGroupId}`;
 
     fetch(url, {
