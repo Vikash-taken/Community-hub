@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     '[name="csrfmiddlewaretoken"]',
   )?.value;
 
+  // fetching data
   let state = {
     page: 2,
     currentGroupId: null,
@@ -36,20 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   };
 
-  // placeholder for creating post in future
-  const createPost = (content) => {
-    fetch("/create-post-url/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken,
-      },
-      body: JSON.stringify({ content: content, group: state.currentGroupId }),
-    })
-      .then((res) => res.json())
-      .then((data) => {});
-  };
-
+  // for fetching filtered date(e.g fun, sports)
   document.querySelectorAll(".nav-item").forEach((item) => {
     item.addEventListener("click", () => {
       state.page = 1;
@@ -66,13 +54,52 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // infinite scroll
   window.onscroll = () => {
     let margin =
       document.body.offsetHeight - (window.innerHeight + window.pageYOffset);
     if (margin < 200) loadPosts(false);
   };
 
+  // Mobile-phone hide and show logic
   document.getElementById("toggle-sidebar").addEventListener("click", () => {
     document.getElementById("sidebar").classList.toggle("show");
   });
+
+  // form creating, hiding and showing loigic
+  const wrapper = document.querySelector(".form-wrapper");
+  const content = document.querySelector(".form-content");
+
+  document.getElementById("open-form")?.addEventListener("click", () => {
+    wrapper.classList.add("show");
+  });
+
+  wrapper.addEventListener("click", () => {
+    wrapper.classList.remove("show");
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && wrapper.classList.contains("show")) {
+      wrapper.classList.remove("show");
+    }
+  });
+
+  content.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  // placeholder for creating post
+  const createPost = (content) => {
+    fetch("/create-post-url/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify({ content: content, group: state.currentGroupId }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log("Successs"))
+      .catch((err) => cosole.error("Error", err));
+  };
 });

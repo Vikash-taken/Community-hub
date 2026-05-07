@@ -45,9 +45,22 @@
         <div class="info-right">
           <h3>About Community</h3>
           <p>Welcome to Trollit! Chill and have fun.</p>
-          <button class="btn-primary">Create Post</button>
+          <button id="open-form" class="btn-primary">Create Post</button>
         </div>
       </aside>
     </div>
   </div>
+
+<div class="form-wrapper">
+  <div class="form-content">
+    <form action="#" method="post">
+      {% csrf_token %}
+      <p>Name</p>
+      <input autofocus placeholder="Name" type="text">
+      <input autofocus placeholder="Name" type="text">
+      <input autofocus placeholder="Name" type="text">
+      <input autofocus placeholder="Name" type="text">
+    </form>
+  </div>
+</div>
 {% endblock %}
