@@ -2,6 +2,7 @@
 {% load static %}
 {% block head %}
 <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+<script> const logInUrl = "{% url 'network:login' %}" </script>
 <script src="{% static 'network/index.js' %}"></script>
 {% endblock %}
 
@@ -55,11 +56,25 @@
   <div class="form-content">
     <form action="#" method="post">
       {% csrf_token %}
-      <p>Name</p>
-      <input autofocus placeholder="Name" type="text">
-      <input autofocus placeholder="Name" type="text">
-      <input autofocus placeholder="Name" type="text">
-      <input autofocus placeholder="Name" type="text">
+      <div class="form-group">
+        <h5 class="label">TITLE</h5>
+      <input class="form-control" autofocus placeholder="Title" type="text" name="title">
+      </div>
+      <div class="form-textarea">
+        <p class="label">CONTENT</p>
+        <textarea class="form-control" name="content"></textarea>
+      </div>
+      <div class="form-group">
+        <h5 class="label">URL</h5>
+      <input class="form-control" placeholder="link to url" type="text" name="url">
+      </div>
+      <div class="form-group">
+        <p class="label">IMAGE</p>
+        <input class="form-cotrol" type="file" accept="image/*" name="image">
+      </div>
+      <div class="align-center">
+      <a href="#" class="btn-primary">SUBMIT</a>
+      </div>
     </form>
   </div>
 </div>

@@ -71,35 +71,50 @@ document.addEventListener("DOMContentLoaded", () => {
   const content = document.querySelector(".form-content");
 
   document.getElementById("open-form")?.addEventListener("click", () => {
-    wrapper.classList.add("show");
-  });
-
-  wrapper.addEventListener("click", () => {
-    wrapper.classList.remove("show");
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && wrapper.classList.contains("show")) {
-      wrapper.classList.remove("show");
-    }
-  });
-
-  content.addEventListener("click", (e) => {
-    e.stopPropagation();
-  });
-
-  // placeholder for creating post
-  const createPost = (content) => {
-    fetch("/create-post-url/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken,
-      },
-      body: JSON.stringify({ content: content, group: state.currentGroupId }),
-    })
+    fetch("check_auth")
       .then((res) => res.json())
-      .then((data) => console.log("Successs"))
-      .catch((err) => cosole.error("Error", err));
-  };
+      .then((data) => {
+        if (data.is_authenticated) {
+          wrapper.classList.add("show");
+
+          wrapper.addEventListener("click", () => {
+            wrapper.classList.remove("show");
+          });
+
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && wrapper.classList.contains("show")) {
+              wrapper.classList.remove("show");
+            }
+          });
+
+          content.addEventListener("click", (e) => {
+            e.stopPropagation();
+          });
+
+          // placeholder for creating post
+          const createPost = (content) => {
+            fetch("/create-post-url/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,
+              },
+              body: JSON.stringify({
+                content: content,
+                group: state.currentGroupId,
+              }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                wrapper.classList.remove("show");
+                console.log("Success");
+              })
+              .catch((err) => console.error("Error", err));
+          };
+        } else {
+          console.log("Not registered");
+          window.location.href = logInUrl;
+        }
+      });
+  });
 });

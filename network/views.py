@@ -178,3 +178,7 @@ def register(request):
         return redirect("network:index")
     else:
         return render(request, "network/register.html")
+
+
+def is_authenticated(request):
+    return JsonResponse({"is_authenticated": request.user.is_authenticated})

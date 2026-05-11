@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import F
 from django.db.models import CheckConstraint, Q, UniqueConstraint
 from django.utils.ipv6 import ValidationError
 
@@ -85,12 +86,8 @@ class Comment(models.Model):
     objects: models.Manager = models.Manager()
     text = models.CharField(max_length=5000)
     comment_created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="comments"
-    )
-    post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name="comments"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
 
     parent = models.ForeignKey(
         "self",
@@ -144,33 +141,47 @@ class Vote(models.Model):
 
     def save(self, *args, **kwargs):
         if self.comment and self.post:
-            raise ValidationError(
-                "It should be either should be commnet or post"
-            )
-        if self.post:
-            querySet = Vote.objects.filter(user=self.user, post=self.post)
-        elif self.comment:
-            querySet = Vote.objects.filter(user=self.user, comment=self.comment)
-        else:
+            raise ValidationError("It should be either comment or post")
+
+        target_model = Post if self.post else Comment
+        target_obj = self.post if self.post else self.comment
+
+        if not target_obj:
             raise ValidationError(
                 "A vote must be associated with either post or comment"
             )
+
+        querySet = Vote.objects.filter(
+            user=self.user,
+            **({"post": self.post} if self.post else {"comment": self.comment}),
+        )
 
         if querySet.exists():
             existing_vote = querySet.first()
 
             if existing_vote.direction == self.direction:
+                target_model.objects.filter(pk=target_obj.id).update(
+                    vote_score=F("vote_score") - self.direction
+                )
                 existing_vote.delete()
                 return
             else:
+                diff = self.direction * 2
+                target_model.objects.filter(pk=target_obj.id).update(
+                    vote_score=F("vote_score") + diff
+                )
                 existing_vote.direction = self.direction
-                existing_vote.save()
+                Vote.objects.filter(pk=existing_vote.pk).update(
+                    direction=self.direction
+                )
                 return
+
+        target_model.objects.filter(pk=target_obj.id).update(
+            vote_score=F("vote_score") + self.direction
+        )
         super().save(*args, **kwargs)
 
     def __str__(self):
-        voted_on = (
-            self.post.title if self.post else f"Comment ID {self.comment.id}"
-        )
+        voted_on = self.post.title if self.post else f"Comment ID {self.comment.id}"
         action = "Upvoted" if self.direction == 1 else "Downvoted"
         return f"{self.user.username} {action} on {voted_on}"

@@ -10,4 +10,5 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("post/<int:post_id>/comments", views.view_comment, name="view_comment"),
+    path("check_auth", views.is_authenticated, name="is_auth"),
 ]
