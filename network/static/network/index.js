@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   };
 
-  // for fetching filtered date(e.g fun, sports)
+  // for fetching filtered community(e.g fun, sports)
   document.querySelectorAll(".nav-item").forEach((item) => {
     item.addEventListener("click", () => {
       state.page = 1;
@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // form creating, hiding and showing loigic
   const wrapper = document.querySelector(".form-wrapper");
   const content = document.querySelector(".form-content");
+  const tagContainer = document.getElementById("tag_filter");
 
   document.getElementById("open-form")?.addEventListener("click", () => {
     fetch("check_auth")
@@ -85,6 +86,43 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.key === "Escape" && wrapper.classList.contains("show")) {
               wrapper.classList.remove("show");
             }
+          });
+
+          // for filtering tag
+          let tagList = [];
+          document.querySelector("#tags").addEventListener("change", (e) => {
+            const selectedTagName = e.target.value;
+
+            if (
+              selectedTagName === "none" ||
+              tagList.includes(selectedTagName)
+            ) {
+              e.target.value = "none";
+              return;
+            }
+
+            tagList.push(selectedTagName);
+
+            const li = document.createElement("li");
+            li.id = `tag-${encodeURIComponent(selectedTagName)}`;
+            li.classList.add("tag-pill");
+
+            const textSpan = document.createElement("span");
+            textSpan.textContent = selectedTagName;
+            li.appendChild(textSpan);
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "×";
+
+            deleteBtn.addEventListener("click", () => {
+              tagList = tagList.filter((item) => item !== selectedTagName);
+              li.remove();
+            });
+
+            li.appendChild(deleteBtn);
+            tagContainer.appendChild(li);
+
+            e.target.value = "none";
           });
 
           content.addEventListener("click", (e) => {

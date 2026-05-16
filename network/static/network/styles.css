@@ -405,8 +405,36 @@ textarea:focus {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.05rem;
-  flex: 0 0 80px;
+  flex: 0 0 100px;
   color: #e0e0e0;
+}
+
+select {
+  appearance: base-select;
+  background-color: var(--input-bg);
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  width: 50%;
+  cursor: pointer;
+}
+
+select::picker-icon {
+  transition: 150ms ease;
+}
+
+::picket(select) {
+  appearance: base-select;
+}
+
+select option {
+  padding: 0.25rem;
+}
+
+select:open::picker-icon {
+  rotate: 180deg;
 }
 
 .align-center {
@@ -422,6 +450,44 @@ textarea:focus {
   margin-top: 10px;
   cursor: pointer;
   font-size: 14px;
+}
+
+#tag_filter {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  margin-left: 100px;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  color: #333333;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.tag-pill button {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 8px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tag-pill button:hover {
+  color: #c0392b;
 }
 
 .btn-primary {

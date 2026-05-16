@@ -72,6 +72,26 @@
         <p class="label">IMAGE</p>
         <input class="form-cotrol" type="file" accept="image/*" name="image">
       </div>
+      <div class="form-group">
+        <p class="label">COMMUNITY</p>
+        <SELECT id="form-community" name="form-community" autocomplete="off">
+          <option value="none">Select Community</option>
+          {% include "network/community_form.html" %}
+        </SELECT>
+      </div>
+       <div class="form-group">
+        <p class="label">TAGS</p>
+        <SELECT id="tags" name="tags">
+          <option value="none">Select Tags</option>
+          {% include "network/tags.html" %}
+        </SELECT>
+      </div>
+
+      <div>
+        <ul id="tag_filter">
+        </ul>
+      </div>
+
       <div class="align-center">
       <a href="#" class="btn-primary">SUBMIT</a>
       </div>

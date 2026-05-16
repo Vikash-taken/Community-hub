@@ -16,7 +16,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils import timezone
 
-from .models import Comment, Community, Post, User, Vote
+from .models import Comment, Community, Post, User, Vote, Tag
 
 
 def index(request):
@@ -73,6 +73,8 @@ def index(request):
 
     # Get all the commmunities
     communities = Community.objects.all()
+    # tags
+    tags = Tag.objects.all()
 
     return render(
         request,
@@ -81,6 +83,7 @@ def index(request):
             "posts": page_obj,
             "communities": communities,
             "has_next": page_obj.has_next(),
+            "tags": tags,
         },
     )
 
