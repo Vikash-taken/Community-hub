@@ -3,6 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const csrfToken = document.querySelector(
     '[name="csrfmiddlewaretoken"]',
   )?.value;
+  const wrapper = document.querySelector(".form-wrapper");
+  const content = document.querySelector(".form-content");
+  const tagContainer = document.getElementById("tag_filter");
+  const submitbtn = document.getElementById("form_submit");
+  const form = document.getElementById("post_creation");
+  const like = document.getElementById("like_button");
+  const dislike = document.getElementById("dislike_button");
 
   // fetching data
   let state = {
@@ -66,13 +73,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("sidebar").classList.toggle("show");
   });
 
-  // form creating, hiding and showing loigic
-  const wrapper = document.querySelector(".form-wrapper");
-  const content = document.querySelector(".form-content");
-  const tagContainer = document.getElementById("tag_filter");
-  const submitbtn = document.getElementById("form_submit");
-  const form = document.getElementById("post_creation");
+  // like and dislike button
+  like.addEventListener("click", () => {
+    like.classList.toggle("like_btn");
 
+    // i need to update sever data
+  });
+
+  dislike.addEventListener("click", () => {
+    dislike.classList.toggle("dislike_btn");
+
+    // i also need to udate sever data
+  });
+
+  // form creating, hiding and showing logic
   document.getElementById("open-form")?.addEventListener("click", () => {
     fetch(is_auth)
       .then((res) => res.json())
