@@ -2,7 +2,11 @@
 {% load static %}
 {% block head %}
 <link href="{% static 'network/styles.css' %}" rel="stylesheet">
-<script> const logInUrl = "{% url 'network:login' %}" </script>
+<script>
+  const logInUrl = "{% url 'network:login' %}"
+  const create_post = "{% url 'network:create_post' %}"
+  const is_auth = "{% url 'network:is_auth' %}"
+</script>
 <script src="{% static 'network/index.js' %}"></script>
 {% endblock %}
 
@@ -54,7 +58,7 @@
 
 <div class="form-wrapper">
   <div class="form-content">
-    <form action="#" method="post">
+    <form action="#" id="post_creation" method="post">
       {% csrf_token %}
       <div class="form-group">
         <h5 class="label">TITLE</h5>
@@ -93,8 +97,9 @@
       </div>
 
       <div class="align-center">
-      <a href="#" class="btn-primary">SUBMIT</a>
+      <a href="#" id="form_submit" class="btn-primary">SUBMIT</a>
       </div>
+
     </form>
   </div>
 </div>

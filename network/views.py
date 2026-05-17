@@ -1,5 +1,7 @@
+import json
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
-from django.core import paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import IntegrityError
 from django.db.models import (
@@ -185,3 +187,45 @@ def register(request):
 
 def is_authenticated(request):
     return JsonResponse({"is_authenticated": request.user.is_authenticated})
+
+
+@login_required
+def create_post(request):
+    if request.method == "POST":
+        title = request.POST.get("title")
+        content = request.POST.get("content", "")
+        url = request.POST.get("url", "")
+
+        community = request.POST.get("form-community")
+        if not community or community == "none":
+            return JsonResponse({"success": False}, status=400)
+        try:
+            community_obj = Community.objects.get(id=community)
+        except (Community.DoesNotExist, ValueError, ValidationError):
+            return JsonResponse(
+                {"success": False, "error": "Selected community does not exist."},
+                status=400,
+            )
+
+        image = request.FILES.get("image")
+
+        tags = request.POST.get("tags", "[]")
+        try:
+            tags_list = json.loads(tags)
+        except json.JSONDecodeError:
+            tags_list = []
+
+        Post.objects.create(
+            title=title,
+            user=request.user,
+            content=content,
+            url=url,
+            community=community_obj,
+            image_post=image,
+            tags=tags_list,
+        )
+
+        return JsonResponse({"success": True}, status=200)
+
+    else:
+        return JsonResponse({"success": False}, status=400)

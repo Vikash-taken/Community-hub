@@ -68,6 +68,7 @@ class Post(models.Model):
     )
 
     vote_score = models.IntegerField(default=1)  # pyright: ignore
+    tags = models.JSONField(default=list, blank=True, null=True)
 
     post_created = models.DateTimeField(auto_now_add=True)
 

@@ -70,9 +70,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.querySelector(".form-wrapper");
   const content = document.querySelector(".form-content");
   const tagContainer = document.getElementById("tag_filter");
+  const submitbtn = document.getElementById("form_submit");
+  const form = document.getElementById("post_creation");
 
   document.getElementById("open-form")?.addEventListener("click", () => {
-    fetch("check_auth")
+    fetch(is_auth)
       .then((res) => res.json())
       .then((data) => {
         if (data.is_authenticated) {
@@ -130,25 +132,34 @@ document.addEventListener("DOMContentLoaded", () => {
           });
 
           // placeholder for creating post
-          const createPost = (content) => {
-            fetch("/create-post-url/", {
+          submitbtn.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            formData.set("tags", JSON.stringify(tagList));
+
+            fetch(create_post, {
               method: "POST",
               headers: {
-                "Content-Type": "application/json",
                 "X-CSRFToken": csrfToken,
               },
-              body: JSON.stringify({
-                content: content,
-                group: state.currentGroupId,
-              }),
+              body: formData,
             })
-              .then((res) => res.json())
+              .then((res) => {
+                if (!res.ok) {
+                  throw new Error("Could not save the post");
+                }
+                return res.json();
+              })
               .then((data) => {
-                wrapper.classList.remove("show");
-                console.log("Success");
+                if (data.success) {
+                  wrapper.classList.remove("show");
+                  console.log("Success");
+                  window.location.reload();
+                }
               })
               .catch((err) => console.error("Error", err));
-          };
+          });
         } else {
           console.log("Not registered");
           window.location.href = logInUrl;
