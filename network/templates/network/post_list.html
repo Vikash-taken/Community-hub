@@ -18,6 +18,9 @@
     <div class="post-content">
       <h4>{{ post.title }}</h4>
       <p>{{ post.content }}</p>
+      {% if post.url %}
+      <a href="{{ post.url }}">{{ post.url }}</a>
+      {% endif %}
       {% if post.image_post %}
       <img src="{{ post.image_post.url }}" />
       {% endif %}
